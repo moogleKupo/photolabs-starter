@@ -1,16 +1,25 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState } from "react";
 
-import FavIcon from './FavIcon';
-import '../styles/PhotoFavButton.scss';
+import FavIcon from "./FavIcon";
+import "../styles/PhotoFavButton.scss";
 
-function PhotoFavButton() {
+const PhotoFavButton = () => {
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleFavClick = () => {
+    setIsLiked(!isLiked);
+  };
+
   return (
-    <div className="photo-list__fav-icon">
-      <div className="photo-list__fav-icon-svg">
-        {/* Insert React */}
-      </div>
-    </div>
+    <div
+      className={`photo-list__fav-icon ${
+        isLiked
+          ? "photo-list__fav-icon-active"
+          : "photo-list__fav-icon-inactive"
+      }`}
+      onClick={handleFavClick}
+    ></div>
   );
-}
+};
 
 export default PhotoFavButton;

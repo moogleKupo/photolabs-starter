@@ -12,7 +12,12 @@
   border-radius: 100%;
 }
 
-.photo-list__fav-icon-svg {
-  padding: 7px;
-  top: 2px;
+.photo-list__fav-icon-active {
+  /* Define styles for the active state here, e.g., background color or icon */
+  background-color: red;
+}
+
+.photo-list__fav-icon-inactive {
+  /* Define styles for the inactive state here, e.g., default background color or icon */
+  background-color: #EEEEEE;
 }
