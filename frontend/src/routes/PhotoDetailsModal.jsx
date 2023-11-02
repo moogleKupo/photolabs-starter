@@ -1,10 +1,10 @@
-import React from 'react';
-import '../styles/PhotoDetailsModal.scss';
-import closeSymbol from '../assets/closeSymbol.svg';
-import PhotoFavButton from '../components/PhotoFavButton';
+import React from "react";
+import "../styles/PhotoDetailsModal.scss";
+import closeSymbol from "../assets/closeSymbol.svg";
+import PhotoFavButton from "../components/PhotoFavButton";
 
-const PhotoDetailsModal = ({ photo, onClose, similarPhotos, userProfile }) => {
-  console.log('Selected Photo Data', photo);
+const PhotoDetailsModal = ({ photo, onClose, similarPhotos }) => {
+  console.log("Selected Photo Data", photo);
 
   return (
     <div className="photo-details-modal">
@@ -13,21 +13,28 @@ const PhotoDetailsModal = ({ photo, onClose, similarPhotos, userProfile }) => {
       </button>
       <div className="photo-details-modal__content">
         <div className="photo-details-modal__photo-container">
-          <PhotoFavButton onFavClick={() => { /* Handle favorite click here */ }} />
-          <img className="photo-details-modal__image" src={photo.urls.full} alt={photo.description} />
+          <PhotoFavButton />
+          <img
+            className="photo-details-modal__image"
+            src={photo.urls.full}
+            alt={photo.description}
+          />
+          <div className="photo-list__user-details">
+            <img
+              className="photo-list__user-profile"
+              src={photo.user.profile}
+              alt={photo.user.username}
+            />
+            <div className="photo-list__user-info">
+              <h2>{photo.user.username}</h2>
+              <p className="photo-list__user-location">
+                {photo.location.city}, {photo.location.country}
+              </p>
+            </div>
+          </div>
         </div>
         <div className="photo-details-modal__info">
           <h3>{photo.description}</h3>
-          <p>
-            Location: {photo.location.city}, {photo.location.country}
-          </p>
-          {userProfile && (
-            <div>
-              <h3>User Profile:</h3>
-              <p>Username: {userProfile.username}</p>
-              <p>Name: {userProfile.name}</p>
-            </div>
-          )}
         </div>
       </div>
       <div className="photo-details-modal__similar-photos">
@@ -35,7 +42,10 @@ const PhotoDetailsModal = ({ photo, onClose, similarPhotos, userProfile }) => {
         <ul>
           {similarPhotos.map((similarPhoto) => (
             <li key={similarPhoto.id}>
-              <img src={similarPhoto.urls.regular} alt={similarPhoto.description} />
+              <img
+                src={similarPhoto.urls.regular}
+                alt={similarPhoto.description}
+              />
             </li>
           ))}
         </ul>
@@ -45,5 +55,3 @@ const PhotoDetailsModal = ({ photo, onClose, similarPhotos, userProfile }) => {
 };
 
 export default PhotoDetailsModal;
-
-
