@@ -5,7 +5,7 @@ import PhotoList from "./PhotoList";
 import PhotoListItem from "./PhotoListItem";
 import sampleDataForPhotoList from "./PhotoListItem";
 import PhotoFavButton from './PhotoFavButton';
-import FavIcon from './FavIcon'
+import FavIcon from './FavIcon';
 
 const HomeRoute = () => {
   return (

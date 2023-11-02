@@ -13,7 +13,7 @@ const PhotoList = ({ photoItems, handleFavClick, onClick }) => {
           id={photoData.id}
           location={`${photoData.location.city}, ${photoData.location.country}`}
           profile={photoData.user.profile}
-          handleFavClick={handleFavClick}
+          handleFavClick={(isLiked) => handleFavClick(photoData.id, isLiked)} // Pass the photo ID and like status
           onClick={(e) => onClick(e, photoData)}
         />
       ))}
@@ -22,3 +22,4 @@ const PhotoList = ({ photoItems, handleFavClick, onClick }) => {
 };
 
 export default PhotoList;
+

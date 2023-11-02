@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import FavIcon from "./FavIcon";
 import "../styles/PhotoFavButton.scss";
 
-const PhotoFavButton = () => {
+const PhotoFavButton = ({ onFavClick }) => {
   const [isLiked, setIsLiked] = useState(false);
 
   const handleFavClick = () => {
     setIsLiked(!isLiked);
+    onFavClick(isLiked); // Call the parent's function to handle favorites
   };
 
   return (
@@ -17,4 +18,6 @@ const PhotoFavButton = () => {
 };
 
 export default PhotoFavButton;
+
+
 

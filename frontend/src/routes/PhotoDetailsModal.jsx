@@ -13,7 +13,7 @@ const PhotoDetailsModal = ({ photo, onClose, similarPhotos, userProfile }) => {
       </button>
       <div className="photo-details-modal__content">
         <div className="photo-details-modal__photo-container">
-          <PhotoFavButton />
+          <PhotoFavButton onFavClick={() => { /* Handle favorite click here */ }} />
           <img className="photo-details-modal__image" src={photo.urls.full} alt={photo.description} />
         </div>
         <div className="photo-details-modal__info">
