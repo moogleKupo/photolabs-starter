@@ -3,6 +3,7 @@ import React from "react";
 
 import "../styles/TopicList.scss";
 import TopicListItem from "./TopicListItem";
+import topics from '../mocks/topics';
 
 const TopicList = ({ topicData, handleTopicSelect }) => {
   if (!topicData || topicData.length === 0) {
@@ -11,11 +12,11 @@ const TopicList = ({ topicData, handleTopicSelect }) => {
 
   return (
     <div className="top-nav-bar__topic-list">
-      {topicData.map((topic) => (
+      {topicData.map((topics) => (
         <TopicListItem
-          key={topic.id}
-          id={topic.id}
-          title={topic.title}
+          key={topics.id}
+          id={topics.id}
+          title={topics.title}
           handleTopicSelect={handleTopicSelect}
         />
       ))}
