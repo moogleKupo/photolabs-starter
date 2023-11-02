@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PhotoList from './components/PhotoList';
 import PhotoDetailsModal from './routes/PhotoDetailsModal'; // Import the modal component
 import './App.scss';
@@ -9,11 +9,16 @@ import TopicListItem from './components/TopicListItem';
 import TopNavigationBar from './components/TopNavigationBar';
 import sampleDataForPhotoList from './mocks/photos';
 import topicData from './mocks/topics';
+import api from './mocks/photos';
+import photos from './mocks/photos'; // Import your photos data
+
 
 const App = () => {
+ 
   const [favoritedPhotos, setFavoritedPhotos] = useState([]);
   const [showModal, setShowModal] = useState(false); // Add state to manage modal visibility
   const [selectedPhoto, setSelectedPhoto] = useState(null); // Store the selected photo
+  const [similarPhotos, setSimilarPhotos] = useState([]);
 
   const topicData = [
     {
@@ -51,6 +56,33 @@ const App = () => {
     setShowModal(true); // Set showModal to true to display the modal
   };
 
+  const fetchSimilarPhotos = async (photoId) => {
+    try {
+      const selectedPhoto = photos.find((photo) => photo.id === photoId);
+  
+      if (selectedPhoto && selectedPhoto.similarPhotos) {
+        // Extract similar photos from the selected photo and convert them into an array
+        const similarPhotosArray = Object.values(selectedPhoto.similarPhotos);
+        setSimilarPhotos(similarPhotosArray);
+      } else {
+        // Handle the case where similar photos are not available
+        setSimilarPhotos([]);
+      }
+    } catch (error) {
+      // Handle errors (e.g., show an error message)
+    }
+  };
+  
+  
+  
+
+  useEffect(() => {
+    if (showModal && selectedPhoto) {
+      // Call a function to fetch similar photos and set them in state
+      fetchSimilarPhotos(selectedPhoto.id);
+    }
+  }, [showModal, selectedPhoto]);
+
   return (
     <div className="App">
       <TopNavigationBar
@@ -68,6 +100,7 @@ const App = () => {
       {showModal && (
         <PhotoDetailsModal
           photo={selectedPhoto}
+          similarPhotos={similarPhotos}
           onClose={() => setShowModal(false)} // Add a function to close the modal
         />
       )}
