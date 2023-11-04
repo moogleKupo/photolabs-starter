@@ -1,25 +1,25 @@
-import React, { useState, useEffect } from 'react';
-import PhotoList from './components/PhotoList';
-import PhotoDetailsModal from './routes/PhotoDetailsModal'; // Import the modal component
-import './App.scss';
-import PhotoFavButton from './components/PhotoFavButton';
-import FavIcon from './components/FavIcon';
-import TopicList from './components/TopicList';
-import TopicListItem from './components/TopicListItem';
-import TopNavigationBar from './components/TopNavigationBar';
-import sampleDataForPhotoList from './mocks/photos';
-import topicData from './mocks/topics';
-import api from './mocks/photos';
-import photos from './mocks/photos'; // Import your photos data
-
+import React, { useState, useEffect } from "react";
+import PhotoList from "./components/PhotoList";
+import PhotoDetailsModal from "./routes/PhotoDetailsModal"; // Import the modal component
+import "./App.scss";
+import PhotoFavButton from "./components/PhotoFavButton";
+import FavIcon from "./components/FavIcon";
+import TopicList from "./components/TopicList";
+import TopicListItem from "./components/TopicListItem";
+import TopNavigationBar from "./components/TopNavigationBar";
+import sampleDataForPhotoList from "./mocks/photos";
+import topicData from "./mocks/topics";
+import api from "./mocks/photos";
+import photos from "./mocks/photos"; // Import your photos data
+import HomeRoute from './routes/HomeRoute';
+import useApplicationData from "hooks/useApplicationData";
 
 const App = () => {
- 
   const [favoritedPhotos, setFavoritedPhotos] = useState([]);
   const [showModal, setShowModal] = useState(false); // Add state to manage modal visibility
   const [selectedPhoto, setSelectedPhoto] = useState(null); // Store the selected photo
   const [similarPhotos, setSimilarPhotos] = useState([]);
-
+  const { state, setPhotoData } = useApplicationData();
   const topicData = [
     {
       id: "1",
@@ -59,7 +59,7 @@ const App = () => {
   const fetchSimilarPhotos = async (photoId) => {
     try {
       const selectedPhoto = photos.find((photo) => photo.id === photoId);
-  
+
       if (selectedPhoto && selectedPhoto.similarPhotos) {
         // Extract similar photos from the selected photo and convert them into an array
         const similarPhotosArray = Object.values(selectedPhoto.similarPhotos);
@@ -72,9 +72,6 @@ const App = () => {
       // Handle errors (e.g., show an error message)
     }
   };
-  
-  
-  
 
   useEffect(() => {
     if (showModal && selectedPhoto) {
@@ -96,7 +93,8 @@ const App = () => {
         onClick={handlePhotoClick} // Pass the click handler to PhotoList
       />
 
-      {/* Render the modal if showModal is true */}
+      {/*<HomeRoute photos={state.photoData} /> */}
+
       {showModal && (
         <PhotoDetailsModal
           photo={selectedPhoto}

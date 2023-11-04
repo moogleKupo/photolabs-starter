@@ -2,7 +2,7 @@ import React from "react";
 import PhotoListItem from "./PhotoListItem";
 import "../styles/PhotoList.scss";
 
-const PhotoList = ({ photoItems, handleFavClick, onClick }) => {
+const PhotoList = ({ photoItems = [], handleFavClick, onClick }) => {
   return (
     <ul className="photo-list">
       {photoItems.map((photoData) => (
@@ -13,7 +13,7 @@ const PhotoList = ({ photoItems, handleFavClick, onClick }) => {
           id={photoData.id}
           location={`${photoData.location.city}, ${photoData.location.country}`}
           profile={photoData.user.profile}
-          handleFavClick={(isLiked) => handleFavClick(photoData.id, isLiked)} // Pass the photo ID and like status
+          onFavClick={(isLiked) => handleFavClick(photoData.id, isLiked)} // Pass it down to PhotoListItem
           onClick={(e) => onClick(e, photoData)}
         />
       ))}
@@ -22,4 +22,8 @@ const PhotoList = ({ photoItems, handleFavClick, onClick }) => {
 };
 
 export default PhotoList;
+
+
+
+
 

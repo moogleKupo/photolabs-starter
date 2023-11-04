@@ -7,7 +7,7 @@ const PhotoFavButton = ({ onFavClick }) => {
 
   const handleFavClick = () => {
     setIsLiked(!isLiked);
-    onFavClick(isLiked); // Call the parent's function to handle favorites
+    onFavClick(isLiked);
   };
 
   return (

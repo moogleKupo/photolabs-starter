@@ -1,11 +1,10 @@
 import React from 'react';
-
 import '../styles/TopNavigationBar.scss';
 import TopicList from './TopicList';
 import FavBadge from './FavBadge';
 import '../styles/FavBadge.scss';
 
-const TopNavigationBar = ({ topicData, handleTopicSelect, favoritedPhotos }) => {
+const TopNavigationBar = ({ topicData = [], handleTopicSelect, favoritedPhotos = [] }) => {
   const hasFavorites = favoritedPhotos.length > 0;
 
   return (

@@ -4,7 +4,13 @@ import FavIcon from './FavIcon';
 import "../styles/PhotoListItem.scss";
 
 const PhotoListItem = (props) => {
-  const { username, imageSource, id, location, profile, onClick, handleFavClick } = props;
+  const { username, imageSource, id, location, profile, onClick, onFavClick } = props;
+  const [isLiked, setIsLiked] = useState(false);
+
+  const handleFavClick = () => {
+    setIsLiked(!isLiked);
+    onFavClick(isLiked);
+  };
 
   return (
     <div className="photo-list__item" onClick={() => onClick(props)}>
@@ -22,6 +28,9 @@ const PhotoListItem = (props) => {
 };
 
 export default PhotoListItem;
+
+
+
 
 
 

@@ -9,114 +9,82 @@ export const ACTIONS = {
   DISPLAY_PHOTO_DETAILS: "DISPLAY_PHOTO_DETAILS",
 };
 
-function reducer(state, action) {
+const reducer = (state, action) => {
   switch (action.type) {
-    case ACTIONS.FAV_PHOTO_ADDED:
-      // Handle adding a favorite photo
-      // Update your state to indicate that a photo is favorited
-      return {
-        ...state,
-        favPhotoIds: [...state.favPhotoIds, action.payload.id],
-      };
-    case ACTIONS.FAV_PHOTO_REMOVED:
-      // Handle removing a favorite photo
-      // Update your state to indicate that a photo is unfavorited
-      return {
-        ...state,
-        favPhotoIds: state.favPhotoIds.filter(function (id) {
-          return id !== action.payload.id;
-        }),
-      };
-    case ACTIONS.SET_PHOTO_DATA:
-      // Handle setting photo data
-      // Update your state with the new photo data
-      return {
-        ...state,
-        photoData: action.payload.data,
-      };
-    case ACTIONS.SET_TOPIC_DATA:
-      // Handle setting topic data
-      // Update your state with the new topic data
-      return {
-        ...state,
-        topicData: action.payload.data,
-      };
-    case ACTIONS.SELECT_PHOTO:
-      // Handle selecting a photo
-      // Update your state to indicate the selected photo
-      return {
-        ...state,
-        selectedPhoto: action.payload.photoId,
-      };
-    case ACTIONS.DISPLAY_PHOTO_DETAILS:
-      // Handle displaying photo details
-      // Update your state to display photo details
-      return {
-        ...state,
-        displayPhotoDetails: true,
-      };
-    default:
-      throw new Error(
-        `Tried to reduce with unsupported action type: ${action.type}`
-      );
+  case ACTIONS.SET_PHOTO_DATA:
+    return {
+      ...state,
+      photoData: action.payload,
+    };
+  case ACTIONS.FAV_PHOTO_REMOVED:
+    return {
+      ...state,
+      favPhotoIds: state.favPhotoIds.filter((id) => id !== action.payload.id),
+    };
+  case ACTIONS.SET_TOPIC_DATA:
+    return {
+      ...state,
+      topicData: action.payload.data,
+    };
+  case ACTIONS.SELECT_PHOTO:
+    return {
+      ...state,
+      selectedPhoto: action.payload.photoId,
+    };
+  case ACTIONS.DISPLAY_PHOTO_DETAILS:
+    return {
+      ...state,
+      displayPhotoDetails: true,
+    };
+  default:
+    throw new Error(
+      `Tried to reduce with unsupported action type: ${action.type}`
+    );
   }
-}
+};
 
-function useApplicationData() {
+const useApplicationData = () => {
   const initialState = {
     favPhotoIds: [], // Array of favorite photo IDs
     selectedPhoto: null, // ID of the currently selected photo
-    photoData: null, // Placeholder for photo data
-    topicData: null, // Placeholder for topic data
+    photoData: [], // Placeholder for photo data
+    topicData: [], // Placeholder for topic data
     displayPhotoDetails: false, // Flag to display photo details
-    // Add other state variables as needed
   };
 
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  function updateToFavPhotoIds(id) {
+  const updateToFavPhotoIds = (id) => {
     dispatch({ type: ACTIONS.FAV_PHOTO_ADDED, payload: { id } });
-    // Handle favoriting a photo
-  }
+  };
 
-  function removeFromFavPhotoIds(id) {
+  const removeFromFavPhotoIds = (id) => {
     dispatch({ type: ACTIONS.FAV_PHOTO_REMOVED, payload: { id } });
-    // Handle unfavoriting a photo
-  }
+  };
 
-  function setPhotoData(data) {
-    dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: { data } });
-    // Handle setting photo data
-  }
+  const setPhotoData = (data) => {
+    dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data });
+  };
 
-  function setTopicData(data) {
-    dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: { data } });
-    // Handle setting topic data
-  }
+  const setTopicData = (data) => {
+    dispatch({ type: ACTIONS.SET_TOPIC_DATA, payload: data });
+  };
 
-  function selectPhoto(photoId) {
+  const selectPhoto = (photoId) => {
     dispatch({ type: ACTIONS.SELECT_PHOTO, payload: { photoId } });
-    // Handle selecting a photo
-  }
+  };
 
-  function displayPhotoDetails() {
+  const displayPhotoDetails = () => {
     dispatch({ type: ACTIONS.DISPLAY_PHOTO_DETAILS });
-    // Handle displaying photo details
-  }
+  };
+
 
   useEffect(() => {
-    // Simulate fetching initial data from an API
-    const fetchData = async () => {
-      try {
-        // Fetch data here and update state using setPhotoData, setTopicData, etc.
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    // Call the fetchData function to initialize the data
-    fetchData();
+    fetch("/api/photos")
+      .then((response) => response.json())
+      .then((data) => dispatch({ type: ACTIONS.SET_PHOTO_DATA, payload: data }));
   }, []);
+  
 
   return {
     state,
@@ -127,6 +95,6 @@ function useApplicationData() {
     selectPhoto,
     displayPhotoDetails,
   };
-}
+};
 
 export default useApplicationData;
