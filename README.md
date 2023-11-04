@@ -22,3 +22,6 @@ Read `backend/readme` for further setup details.
 cd backend
 npm start
 ```
+## Screenshots
+!["Screenshot description"] (https://github.com/moogleKupo/photolabs-starter/blob/main/docs/Screenshot%202023-11-03%20at%207.46.40%20PM.png?raw=true)
+!["Screenshot description"] (https://github.com/moogleKupo/photolabs-starter/blob/main/docs/Screenshot%202023-11-03%20at%207.47.08%20PM.png?raw=true)
