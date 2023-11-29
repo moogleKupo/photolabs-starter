@@ -3,7 +3,6 @@ import FavIcon from "./FavIcon";
 
 import "../styles/FavBadge.scss";
 
-// Nav bar favourites button
 const FavBadge = ({ isFavPhotoExist, viewFavourites }) => {
   return (
     <div
