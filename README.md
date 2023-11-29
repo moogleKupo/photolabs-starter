@@ -1,7 +1,9 @@
 # react-photolabs
-The PhotoLabs project for the Web Development React course programming completed by Taylor Maine
+A basic image-viewing website created for the purpose of learning React which utilizes a psql database to retrieve all data. Images can be sorted by their topic, and favourited. Clicking on an item card will bring up a larger modal view of the selected image, as well as show related images below it.
 
 # Photolabs
+
+!["The PhotoLabs app"](photolabMain.png)
 
 ## Setup
 
@@ -22,7 +24,3 @@ Read `backend/readme` for further setup details.
 cd backend
 npm start
 ```
-## Screenshots
-## Screenshots
-![Home Screen](https://github.com/moogleKupo/photolabs-starter/blob/main/docs/Screenshot%202023-11-03%20at%207.46.40%20PM.png?raw=true)
-![Peek Screen](https://github.com/moogleKupo/photolabs-starter/blob/main/docs/Screenshot%202023-11-03%20at%207.47.08%20PM.png?raw=true)

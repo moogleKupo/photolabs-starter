@@ -1,17 +1,18 @@
-import React from 'react';
-import FavIcon from './FavIcon';
+import React from "react";
+import FavIcon from "./FavIcon";
 
-import '../styles/FavBadge.scss';
+import "../styles/FavBadge.scss";
 
-const FavBadge = ({ hasFavorites }) => {
+// Nav bar favourites button
+const FavBadge = ({ isFavPhotoExist, viewFavourites }) => {
   return (
-    <div className='fav-badge'>
-      <FavIcon displayAlert={hasFavorites} />
-      {hasFavorites && (
-        <div className='fav-badge__count'>
-          <span>{hasFavorites}</span>
-        </div>
-      )}
+    <div
+      className="fav-badge"
+      onClick={() => {
+        viewFavourites();
+      }}
+    >
+      <FavIcon displayAlert={!!isFavPhotoExist} selected={!!isFavPhotoExist} />
     </div>
   );
 };

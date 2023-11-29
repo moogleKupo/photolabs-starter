@@ -3,24 +3,16 @@
   top: 8px;
   right: -8px;
   cursor: pointer;
-  border-width: 0.1px;
   margin-bottom: -30px;
+  border-width: 0.1px;
   background-color: #EEEEEE;
   width: 32px;
   height: 32px;
-  border-radius: 50%; /* Use 50% for a circle */
-  display: flex;
-  align-items: center; /* Center vertically */
-  justify-content: center; /* Center horizontally */
+  text-align: center;
+  border-radius: 100%;
 }
 
-.photo-list__fav-icon-active {
-  /* Define styles for the active state here, e.g., background color or icon */
-  background-color: red;
+.photo-list__fav-icon-svg {
+  padding: 7px;
+  top: 2px;
 }
-
-.photo-list__fav-icon-inactive {
-  /* Define styles for the inactive state here, e.g., default background color or icon */
-  background-color: #EEEEEE;
-}
-

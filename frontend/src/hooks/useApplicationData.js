@@ -1,122 +1,102 @@
-import React, { useReducer, useEffect } from "react";
+/* eslint-disable linebreak-style */
+/* eslint-disable func-style */
+/* eslint-disable linebreak-style */
+import { useReducer, useEffect } from "react";
 
-const initialState = {
-  photo: null,
-  isFav: false,
-  favPhotos: [],
-  photoData: [],
-  topicData: [],
-  searchInput: "",
+export const ACTIONS = {
+  FAV_PHOTO_ADDED: "FAV_PHOTO_ADDED",
+  FAV_PHOTO_REMOVED: "FAV_PHOTO_REMOVED",
+  SET_PHOTO_DATA: "SET_PHOTO_DATA",
+  SET_TOPIC_DATA: "SET_TOPIC_DATA",
+  SELECT_PHOTO: "SELECT_PHOTO",
 };
 
-const actionTypes = {
-  openModal: "openModal",
-  closeModal: "closeModal",
-  setPhotoData: "setPhotoData",
-  setTopicData: "setTopicData",
-  addFavPhoto: "addFavPhoto",
-  removeFavPhoto: "removeFavPhoto",
-  setSearchInput: "setSearchInput",
-};
-
-const appReducer = (state, action) => {
+function reducer(state, action) {
   switch (action.type) {
-  case "openModal":
-    return { ...state, photo: action.payload };
-  case "closeModal":
-    return { ...state, photo: null };
-  case "setPhotoData":
-    return { ...state, photoData: action.payload };
-  case "setTopicData":
-    return { ...state, topicData: action.payload };
-  case "addFavPhoto":
-    return { ...state, favPhotos: [...state.favPhotos, action.payload] };
-  case "removeFavPhoto":
-    return { ...state, favPhotos: action.payload };
-  case "setSearchInput":
-    return { ...state, searchInput: action.payload };
+  case ACTIONS.FAV_PHOTO_ADDED:
+    return {
+      ...state,
+      favouritePhotos: [...state.favouritePhotos, action.item],
+    };
+  case ACTIONS.FAV_PHOTO_REMOVED:
+    return {
+      ...state,
+      favouritePhotos: state.favouritePhotos.filter(
+        (item) => item.id !== action.item.id
+      ),
+    };
+  case ACTIONS.SELECT_PHOTO:
+    return {
+      ...state,
+      clickedPic: action.item,
+    };
+  case ACTIONS.SET_PHOTO_DATA:
+    return {
+      ...state,
+      photoData: action.item,
+    };
+  case ACTIONS.SET_TOPIC_DATA:
+    return {
+      ...state,
+      topicData: action.item,
+    };
   default:
     throw new Error(
       `Tried to reduce with unsupported action type: ${action.type}`
     );
   }
-};
+}
 
 const useApplicationData = () => {
-  const [state, dispatch] = useReducer(appReducer, initialState);
+  const [state, dispatch] = useReducer(reducer, {
+    favouritePhotos: [],
+    clickedPic: null,
+    photoData: [],
+    topicData: [],
+    selectedTopic: null,
+  });
 
-  useEffect(() => {
-    fetch("/api/photos", {
-      method: "GET",
-    })
-      .then((response) => response.json())
-      .then((photo) =>
-        dispatch({ type: actionTypes.setPhotoData, payload: photo })
-      )
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch(`/api/topics`, {
-      method: "GET",
-    })
-      .then((res) => res.json())
-      .then((topic) =>
-        dispatch({ type: actionTypes.setTopicData, payload: topic })
-      )
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
-
-  useEffect(() => {
-    const searchPhotos = state.photoData.filter((photo) =>
-      photo.location.city
-        .toLowerCase()
-        .includes(state.searchInput.toLowerCase())
-    );
-    dispatch({ type: actionTypes.setPhotoData, payload: searchPhotos });
-  }, [state.searchInput]);
-
-  const openModal = (photo) => {
-    dispatch({ type: actionTypes.openModal, payload: photo });
-  };
-  const closeModal = () => {
-    dispatch({ type: actionTypes.closeModal });
-  };
-  const handleFav = (photoId) => {
-    if (state.favPhotos.includes(photoId)) {
-      const favPhotosWithoutSelected = [...state.favPhotos].filter(
-        (photo) => photo !== photoId
-      );
-      dispatch({
-        type: actionTypes.removeFavPhoto,
-        payload: favPhotosWithoutSelected,
-      });
+  //Add a single photo to the favourites
+  const updateToFavPhotoIds = (photoItem, adding) => {
+    if (adding) {
+      dispatch({ type: "FAV_PHOTO_ADDED", item: photoItem });
     } else {
-      dispatch({ type: actionTypes.addFavPhoto, payload: photoId });
+      dispatch({ type: "FAV_PHOTO_REMOVED", item: photoItem });
     }
   };
-  const handleTopicSelect = (topicId) => {
-    fetch(`/api/topics/photos/${topicId}`)
+
+  //Set a photo to be viewed in modal
+  const setPhotoSelected = (photoItem) => {
+    dispatch({ type: "SELECT_PHOTO", item: photoItem });
+  };
+
+  //Show only the photos belonging to a particular topic
+  const selectTopic = (topicSlug) => {
+    fetch(`/api/topics/photos/${topicSlug}`)
       .then((res) => res.json())
-      .then((data) =>
-        dispatch({ type: actionTypes.setPhotoData, payload: data })
-      );
+      .then((data) => dispatch({ type: "SET_PHOTO_DATA", item: data }));
   };
-  const handleSearch = (searchData) => {
-    dispatch({ type: actionTypes.setSearchInput, payload: searchData });
+
+  //Show only favourited items
+  const viewFavourites = () => {
+    dispatch({ type: "SET_PHOTO_DATA", item: state.favouritePhotos });
   };
+
+  useEffect(() => {
+    fetch("/api/photos")
+      .then((res) => res.json())
+      .then((data) => dispatch({ type: "SET_PHOTO_DATA", item: data }));
+    fetch("/api/topics")
+      .then((res) => res.json())
+      .then((data) => dispatch({ type: "SET_TOPIC_DATA", item: data }));
+  }, []);
 
   return {
     state,
-    openModal,
-    closeModal,
-    handleFav,
-    handleTopicSelect,
-    handleSearch,
+    updateToFavPhotoIds,
+    setPhotoSelected,
+    selectTopic,
+    viewFavourites,
   };
 };
 

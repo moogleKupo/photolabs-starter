@@ -1,8 +1,8 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useState } from 'react';
 
-import "../styles/HomeRoute.scss";
-import PhotoList from "../components/PhotoList";
-import TopNavigation from "../components/TopNavigationBar";
+import '../styles/HomeRoute.scss';
+import PhotoList from '../components/PhotoList';
+import TopNavigation from '../components/TopNavigationBar';
 
 const HomeRoute = (props) => {
   return (

@@ -1,21 +1,21 @@
-import React from 'react';
-import '../styles/TopNavigationBar.scss';
-import TopicList from './TopicList';
-import FavBadge from './FavBadge';
-import '../styles/FavBadge.scss';
+import React from "react";
 
-const TopNavigationBar = ({ topicData = [], handleTopicSelect, favoritedPhotos = [] }) => {
-  const hasFavorites = favoritedPhotos.length > 0;
+import "../styles/TopNavigationBar.scss";
+import TopicList from "./TopicList";
+import FavBadge from "./FavBadge";
 
+// Nav bar for top of page
+const TopNavigation = (props) => {
   return (
     <div className="top-nav-bar">
       <span className="top-nav-bar__logo">PhotoLabs</span>
-      <TopicList topicData={topicData} handleTopicSelect={handleTopicSelect} />
-      <FavBadge hasFavorites={hasFavorites} />
+      <TopicList items={props.navItems} selectTopic={props.selectTopic} />
+      <FavBadge
+        isFavPhotoExist={props.favourites.length > 0 ? true : false}
+        viewFavourites={props.viewFavourites}
+      />
     </div>
   );
 };
 
-export default TopNavigationBar;
-
-
+export default TopNavigation;

@@ -1,29 +1,25 @@
 import React from "react";
-import PhotoListItem from "./PhotoListItem";
-import "../styles/PhotoList.scss";
 
-const PhotoList = ({ photoItems = [], handleFavClick, onClick }) => {
+import "../styles/PhotoList.scss";
+import PhotoListItem from "./PhotoListItem";
+
+const PhotoList = (props) => {
   return (
     <ul className="photo-list">
-      {photoItems.map((photoData) => (
-        <PhotoListItem
-          key={photoData.id}
-          username={photoData.user.username}
-          imageSource={photoData.urls.regular}
-          id={photoData.id}
-          location={`${photoData.location.city}, ${photoData.location.country}`}
-          profile={photoData.user.profile}
-          onFavClick={(isLiked) => handleFavClick(photoData.id, isLiked)} // Pass it down to PhotoListItem
-          onClick={(e) => onClick(e, photoData)}
-        />
-      ))}
+      {props.photoItems.length &&
+        props.photoItems.map((item) => {
+          return (
+            <PhotoListItem
+              item={item}
+              editFavourite={props.editFavourite}
+              favouritePhotos={props.favouritePhotos}
+              onClick={props.onClick}
+              key={item.id}
+            />
+          );
+        })}
     </ul>
   );
 };
 
 export default PhotoList;
-
-
-
-
-

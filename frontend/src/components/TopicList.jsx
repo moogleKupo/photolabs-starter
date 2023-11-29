@@ -1,25 +1,22 @@
-
 import React from "react";
 
 import "../styles/TopicList.scss";
 import TopicListItem from "./TopicListItem";
-import topics from '../mocks/topics';
 
-const TopicList = ({ topicData, handleTopicSelect }) => {
-  if (!topicData || topicData.length === 0) {
-    return <div>No topics available</div>;
-  }
-
+const TopicList = (props) => {
   return (
     <div className="top-nav-bar__topic-list">
-      {topicData.map((topics) => (
-        <TopicListItem
-          key={topics.id}
-          id={topics.id}
-          title={topics.title}
-          handleTopicSelect={handleTopicSelect}
-        />
-      ))}
+      {props.items.map((item) => {
+        return (
+          <TopicListItem
+            key={item.id}
+            id={item.id}
+            slug={item.slug}
+            title={item.title}
+            selectTopic={props.selectTopic}
+          />
+        );
+      })}
     </div>
   );
 };

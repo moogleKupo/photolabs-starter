@@ -1,55 +1,57 @@
 import React from "react";
+
 import "../styles/PhotoDetailsModal.scss";
 import closeSymbol from "../assets/closeSymbol.svg";
-import PhotoFavButton from "../components/PhotoFavButton";
+import PhotoFavButton from "components/PhotoFavButton";
+import PhotoList from "components/PhotoList";
 
-const PhotoDetailsModal = ({ photo, onClose, similarPhotos }) => {
-  console.log("Selected Photo Data", photo);
-
+const PhotoDetailsModal = ({
+  selectPic,
+  editFavourite,
+  item,
+  favouritePhotos,
+}) => {
   return (
     <div className="photo-details-modal">
-      <button className="photo-details-modal__close-button" onClick={onClose}>
-        <img src={closeSymbol} alt="close symbol" />
+      <button className="photo-details-modal__close-button">
+        <img
+          src={closeSymbol}
+          alt="close symbol"
+          onClick={() => selectPic(null)}
+        />
       </button>
-      <div className="photo-details-modal__content">
-        <div className="photo-details-modal__photo-container">
-          <PhotoFavButton />
+      <section className="">
+        <PhotoFavButton
+          changeFavs={(adding) => editFavourite(item, adding)}
+          favouritePhotos={favouritePhotos}
+          parentItem={item}
+        />
+        <img className="photo-details-modal__image" src={item.urls.full}></img>
+        <div className="photo-details-modal__photographer-details">
           <img
-            className="photo-details-modal__image"
-            src={photo.urls.full}
-            alt={photo.description}
-          />
-          <div className="photo-list__user-details">
-            <img
-              className="photo-list__user-profile"
-              src={photo.user.profile}
-              alt={photo.user.username}
-            />
-            <div className="photo-list__user-info">
-              <h2>{photo.user.username}</h2>
-              <p className="photo-list__user-location">
-                {photo.location.city}, {photo.location.country}
-              </p>
-            </div>
+            className="photo-details-modal__photographer-profile"
+            src={item.user.profile}
+          ></img>
+          <div className="photo-details-modal__photographer-info">
+            <span>{item.user.name}</span>
+            <br></br>
+            <span className="photo-details-modal__photographer-location">
+              {item.location.city}, {item.location.country}
+            </span>
           </div>
         </div>
-        <div className="photo-details-modal__info">
-          <h3>{photo.description}</h3>
-        </div>
-      </div>
-      <div className="photo-details-modal__similar-photos">
-        <h3>Similar Photos</h3>
-        <ul>
-          {similarPhotos.map((similarPhoto) => (
-            <li key={similarPhoto.id}>
-              <img
-                src={similarPhoto.urls.regular}
-                alt={similarPhoto.description}
-              />
-            </li>
-          ))}
-        </ul>
-      </div>
+      </section>
+      <span className="photo-details-modal__top-bar">Similar Photos</span>
+      <section className="photo-details-modal__images">
+        <PhotoList
+          photoItems={item.similar_photos}
+          editFavourite={editFavourite}
+          onClick={() => {
+            return;
+          }}
+          favouritePhotos={favouritePhotos}
+        />
+      </section>
     </div>
   );
 };

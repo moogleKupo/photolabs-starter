@@ -1,37 +1,37 @@
-import React, { useState } from "react";
-import PhotoFavButton from './PhotoFavButton';
-import FavIcon from './FavIcon';
+import React from "react";
+
 import "../styles/PhotoListItem.scss";
+import PhotoFavButton from "./PhotoFavButton";
 
-const PhotoListItem = (props) => {
-  const { username, imageSource, id, location, profile, onClick, onFavClick } = props;
-  const [isLiked, setIsLiked] = useState(false);
-
-  const handleFavClick = () => {
-    setIsLiked(!isLiked);
-    onFavClick(isLiked);
+const PhotoListItem = ({ item, editFavourite, favouritePhotos, onClick }) => {
+  const changeFavourites = (adding) => {
+    editFavourite(item, adding);
   };
 
   return (
-    <div className="photo-list__item" onClick={() => onClick(props)}>
-      <PhotoFavButton onFavClick={handleFavClick} />
-      <img className="photo-list__image" src={imageSource} alt={username} />
+    <section className="photo-list__item">
+      <PhotoFavButton
+        changeFavs={changeFavourites}
+        parentItem={item}
+        favouritePhotos={favouritePhotos}
+      />
+      <img
+        className="photo-list__image"
+        src={item.urls.regular}
+        onClick={() => onClick(item)}
+      ></img>
       <div className="photo-list__user-details">
-        <img className="photo-list__user-profile" src={profile} alt={username} />
+        <img className="photo-list__user-profile" src={item.user.profile}></img>
         <div className="photo-list__user-info">
-          <h2>{username}</h2>
-          <p className="photo-list__user-location">{location}</p>
+          <span>{item.user.name}</span>
+          <br></br>
+          <span className="photo-list__user-location">
+            {item.location.city}, {item.location.country}
+          </span>
         </div>
       </div>
-    </div>
+    </section>
   );
 };
 
 export default PhotoListItem;
-
-
-
-
-
-
-
